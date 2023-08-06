@@ -6,7 +6,7 @@ import math  # The Python math module
 from scipy import stats  # The SciPy stats module
 
 
-#Importing stocks and making first API call and parsing it
+#Importierung der Aktien und Ausführung vom API call
 stocks = pd.read_csv('sp_500_stocks.csv')
 from secrets import IEX_CLOUD_API_TOKEN
 
@@ -18,7 +18,7 @@ data
 data['year1ChangePercent']
 
 
-#Erstellung einre Tabelle
+#Erstellung einer Tabelle
 
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
@@ -57,7 +57,8 @@ final_dataframe = final_dataframe[:51]
 final_dataframe.reset_index(drop=True, inplace=True)
 final_dataframe
 
-#Aktien mit geringem 'momentum' werden entfernt
+#Aktien mit geringem Schwung werden entfernt
+
 def portfolio_input():
     global portfolio_size
     portfolio_size = input("Enter the value of your portfolio:")
