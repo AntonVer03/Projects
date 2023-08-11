@@ -1,15 +1,19 @@
 import pandas as pd
 import yfinance as yf
 
+#Importierung der Daten
+dfSPY=yf.download("^RUI",start='2011-01-05', end='2021-01-05')
+
+#Für andere Beispiele
 #dfSPY = pd.read_csv("SPY.USUSD_Candlestick_1_D_BID_16.02.2017-21.05.2022.csv")
 #dfSPY=yf.download("^GSPC",start='2011-01-05', end='2021-01-05')
-dfSPY=yf.download("^RUI",start='2011-01-05', end='2021-01-05')
 #dfSPY=yf.download("EURUSD=X",start='2011-01-05', end='2021-01-05')
 
 dfSPY=dfSPY[dfSPY.High!=dfSPY.Low]
 dfSPY.reset_index(inplace=True)
 dfSPY.head()
 
+#Erstellung von Indikatoren
 import pandas_ta as ta
 dfSPY['EMA']=ta.sma(dfSPY.Close, length=200)#sma ema
 dfSPY['RSI']=ta.rsi(dfSPY.Close, length=2)
@@ -22,6 +26,7 @@ dfSPY.dropna(inplace=True)
 dfSPY.reset_index(inplace=True)
 dfSPY
 
+#Trading Signalfunktionen
 def addemasignal(df, backcandles):
     emasignal = [0]*len(df)
     for row in range(backcandles, len(df)):
@@ -57,6 +62,9 @@ addorderslimit(dfSPY, 0.00)
 
 dfSPY[dfSPY.ordersignal!=0]
 
+
+
+#Visualisierung
 import numpy as np
 def pointposbreak(x):
     if x['ordersignal']!=0:
@@ -91,7 +99,7 @@ dfpl = dfSPY[:].copy()
 def SIGNAL():
     return dfpl.ordersignal
 
-
+#Backtesting
 from backtesting import Strategy
 from backtesting import Backtest
 
