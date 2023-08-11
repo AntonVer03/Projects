@@ -3,10 +3,11 @@ import pandas as pd
 import numpy as np
 import pandas_ta as ta
 
+#Importierung der Daten
 dataF = yf.download("EURUSD=X", start="2022-11-19", end="2023-01-16", interval='5m')
 #dataF.iloc[:,:]
 
-
+#Erstellunng von einem Raster
 grid_distance = 0.005
 midprice = 1.065
 
@@ -17,7 +18,7 @@ def generate_grid(midprice, grid_distance, grid_range):
 grid = generate_grid(midprice=midprice, grid_distance=grid_distance, grid_range=0.1)
 grid
 
-
+#Signalfunktion
 signal = [0]*len(dataF)
 i=0
 for index, row in dataF.iterrows():
@@ -37,6 +38,8 @@ def SIGNAL():
 dfpl['ATR'] = ta.atr(high = dfpl.High, low = dfpl.Low, close = dfpl.Close, length = 16)
 dfpl.dropna(inplace=True)
 
+
+#Backtesting
 from backtesting import Strategy
 from backtesting import Backtest
 import backtesting
